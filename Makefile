@@ -1,5 +1,5 @@
 LINT:=black --check --verbose --target-version py310 *.py
-TYPES:=mypy 05.py
+TYPES:=mypy .
 TEST:=py.test --doctest-modules
 DOCKER_TAG:=advent-of-code
 DOCKER_RUN:=docker run --rm -t $(DOCKER_TAG)
