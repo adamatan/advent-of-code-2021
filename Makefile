@@ -31,7 +31,7 @@ watch-test-and-lint:
 	while true; \
 		do fswatch -1 .; \
 		clear; \
-		make test lint; \
+		make test lint types; \
 		sleep 0.3; \
 	done
 
@@ -39,10 +39,12 @@ watch-test-and-lint:
 # Faster, but not assured to be
 watch-test-and-lint-venv: venv
 	while true; \
-		do fswatch -1 .; \
-		clear; \
+		do \
+			fswatch -1 -e '\..*' .; \
+			clear; \
 			source venv/bin/activate && \
 			$(TEST) && \
 			$(LINT) && \
+			$(TYPES) && \
 		sleep 0.3; \
 	done
