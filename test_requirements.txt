@@ -1,3 +1,4 @@
 black==21.12b0
 pytest==6.2.5
-mypy==0.931
+# MyPy dev version that supports the match statement
+git+git://github.com/python/mypy.git@9b3147701f054bf8ef42bd96e33153b05976a5e1

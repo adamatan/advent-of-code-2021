@@ -2,7 +2,7 @@ LINT:=black --check --verbose --target-version py310 *.py
 TYPES:=mypy 05.py
 TEST:=py.test --doctest-modules
 DOCKER_TAG:=advent-of-code
-DOCKER_RUN:=docker run --rm $(DOCKER_TAG)
+DOCKER_RUN:=docker run --rm -t $(DOCKER_TAG)
 VENV_PATH:=venv
 
 test: docker-build
@@ -10,6 +10,8 @@ test: docker-build
 
 lint: docker-build
 	$(DOCKER_RUN) $(LINT)
+
+types: docker-build
 	$(DOCKER_RUN) $(TYPES)
 
 
