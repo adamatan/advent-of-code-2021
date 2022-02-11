@@ -37,9 +37,39 @@ def get_input(input_filename: str) -> List[Signal]:
     return signals_and_output_values
 
 
+class PatternSolver():
+
+    def __init__(self, signal: Signal) -> None:
+        self.signal = signal
+        self.digits_to_patterns = {}
+        self.remaining_patterns = set(self.signal.patterns)
+
+    def solve(self):
+        self.solve_digit(1, 2)
+        self.solve_digit(7, 3)
+        self.solve_digit(4, 4)
+        self.solve_digit(8, 7)
+        self.solve_digit(3, 5, subset_of=1)
+
+    def solve_digit(self, digit, number_of_segments, subset_of=None):
+        patterns = {s for s in self.remaining_patterns if len(s) == number_of_segments}
+        if subset_of is not None:
+            digit_pattern = set(self.digits_to_patterns[subset_of])
+            logger.info(digit_pattern)
+            patterns = {p for p in patterns if set(p).issubset(set(digit_pattern))}
+            logger.info(patterns)
+        if len(patterns) == 1:
+            pattern = patterns.pop()
+            self.remaining_patterns.remove(pattern)
+            self.digits_to_patterns[digit] = pattern
+
+    def __str__(self) -> str:
+        return str(self.digits_to_patterns)
+
+
 def solve_one_signal(signal: Signal) -> int:
     """
-    Solves a single signal.
+    Decyphers the numeric value of the output values of a signal.
 
     Argument:
         signal -- a Signal object, with patterns and output values
@@ -51,7 +81,7 @@ def solve_one_signal(signal: Signal) -> int:
     Signal(patterns=['dbfea', 'bcaefdg', 'dcfgeb', 'ag', 'bfceag', 'egfcda', 'becfg', 'fgeba', 'gcab', 'ega'],
             output_values=['agbfecd', 'aedfcgb', 'gcba', 'ga'])
 
-    Each pattern is a string, each representing a single digit from 0 to 9 in the 7-segment system.
+    Each pattern is a string, representing a single digit from 0 to 9 in the 7-segment system.
     Each pattern is made of segments, represented by a single character. The function maps each pattern
     to a digit, and then creates a four-digit value from the output_values.
 
@@ -157,3 +187,7 @@ def part_1(input_filename: str) -> int:
 if __name__ == "__main__":
     print(part_1("input/08.txt"))
     print(part_2("input/08.txt"))
+    signal = get_input("input/08.txt")[0]
+    solver = PatternSolver(signal)
+    solver.solve()
+    logger.success(solver)
