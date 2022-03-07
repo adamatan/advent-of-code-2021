@@ -6,6 +6,7 @@ COPY requirements.txt /tmp
 COPY test_requirements.txt /tmp
 RUN pip install -r /tmp/test_requirements.txt -r /tmp/requirements.txt
 
+COPY mypy.ini /app/
 COPY *.py /app/
 COPY input /app/input
 

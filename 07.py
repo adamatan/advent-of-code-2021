@@ -20,7 +20,7 @@ def get_input(input_filename: str) -> List[int]:
         return [int(x) for x in f.read().split(",")]
 
 
-def gauss_sum(a, b: int):
+def gauss_sum(a: int, b: int) -> int:
     """Returns the sum of the Gauss numbers up to a given distance.
     >>> gauss_sum(1, 0)
     1
